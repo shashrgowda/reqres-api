@@ -12,6 +12,7 @@ th {
 .table-image {
   background-color: gainsboro;
   box-shadow: 5px 5px 15px 5px white;
+  border-radius: 50%;
 }
 
 th,

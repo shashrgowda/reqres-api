@@ -8,6 +8,7 @@ import Loader from "./components/Loader/Loader";
 export default function App() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [resultsPerPage] = useState(4);
   const [currentPage, setPageNumber] = useState(1);
   const [searchParam, setSearch] = useState("");
@@ -18,25 +19,36 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      const arr = [];
-      const res = await Axios.get(`https://reqres.in/api/users?per_page=12`);
-      console.log(res);
-      for (const key in res.data.data) {
-        const obj = res.data.data;
-        arr.push({
-          id: obj[key].id,
-          email: obj[key].email,
-          avatar: obj[key].avatar,
-          first_name: obj[key].first_name,
-          last_name: obj[key].last_name,
-        });
+      try {
+        setLoading(true);
+        const arr = [];
+        const res = await Axios.get(`https://reqres.in/api/users?per_page=12`);
+        console.log(res);
+        for (const key in res.data.data) {
+          const obj = res.data.data;
+          arr.push({
+            id: obj[key].id,
+            email: obj[key].email,
+            avatar: obj[key].avatar,
+            first_name: obj[key].first_name,
+            last_name: obj[key].last_name,
+          });
+        }
+        setResults(arr);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        setError(true);
       }
-      setResults(arr);
-      setLoading(false);
     };
     fetchData();
   }, []);
+
+  let errorMessage = null;
+
+  if (error) {
+    errorMessage = <h2>Something went wrong!</h2>;
+  }
 
   const activePageNum = (currentPage) => {
     setPageNumber(currentPage);
@@ -88,6 +100,7 @@ export default function App() {
         </div>
       </section>
       {loader}
+      {errorMessage}
       {resultsToSearch}
       <Pagination
         resultsPerPage={resultsPerPage}

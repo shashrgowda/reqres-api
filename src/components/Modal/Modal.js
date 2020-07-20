@@ -41,6 +41,7 @@ const ModalWindow = ({ onRequestClose, singleUserData, loading }) => {
           right: "16px",
           backgroundColor: "gray",
           height: "150px",
+          borderRadius: "50%",
         }}
         src={singleUserData[0].avatar}
         alt="user"
