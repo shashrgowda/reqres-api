@@ -23,7 +23,7 @@ export default function App() {
         setLoading(true);
         const arr = [];
         const res = await Axios.get(`https://reqres.in/api/users?per_page=12`);
-        // console.log(res);
+        console.log(res);
         for (const key in res.data.data) {
           const obj = res.data.data;
           arr.push({
